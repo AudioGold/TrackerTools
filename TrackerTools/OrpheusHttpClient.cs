@@ -12,8 +12,7 @@ public class OrpheusHttpClient : Singleton<OrpheusHttpClient>
     private TrackerData _trackerData;
 
     private const string BaseAddress = "https://orpheus.network/";
-    private const string RequestUri = "ajax.php?action=index";
-
+    
     public void Initialize()
     {
         _client = new HttpClient();
@@ -23,21 +22,14 @@ public class OrpheusHttpClient : Singleton<OrpheusHttpClient>
         _client.BaseAddress = new Uri(BaseAddress);
         _client.DefaultRequestHeaders.Accept.Clear();
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+        var indexAction = new IndexHttpClientAction();
     }
     
-    public async Task<ResponseData?> AsyncGetIndex()
+    public async Task<IndexResponseData?> AsyncGetIndex()
     {
-        var response = await _client.GetAsync(RequestUri);
-        if (response.IsSuccessStatusCode)
-        {
-            var result = await response.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            var data = JsonSerializer.Deserialize<ApiResponse>(result, options);
-
-            return data.Response;
-        }
-
-        Console.WriteLine("Internal server Error");
-        return null;
+        var indexAction = HttpClientActionFactory.GetAction(HttpClientAction.Index);
+        return (IndexResponseData) await indexAction.PerformAction(_client);
     }
 }
+

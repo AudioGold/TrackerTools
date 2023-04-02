@@ -12,7 +12,6 @@ public class RedactedHttpClient : Singleton<RedactedHttpClient>
     private TrackerData _trackerData;
 
     private const string BaseAddress = "https://redacted.ch/";
-    private const string RequestUri = "ajax.php?action=index";
 
     public void Initialize()
     {
@@ -25,30 +24,25 @@ public class RedactedHttpClient : Singleton<RedactedHttpClient>
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
     
-    public async Task<ResponseData?> AsyncGetIndex()
+    public async Task<IndexResponseData?> AsyncGetIndex()
     {
-        var response = await _client.GetAsync(RequestUri);
-        if (response.IsSuccessStatusCode)
-        {
-            var result = await response.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-            var data = JsonSerializer.Deserialize<ApiResponse>(result, options);
-
-            return data.Response;
-        }
-
-        Console.WriteLine("Internal server Error");
-        return null;
+        var indexAction = HttpClientActionFactory.GetAction(HttpClientAction.Index);
+        return (IndexResponseData) await indexAction.PerformAction(_client);
     }
 }
 
-public class ApiResponse
+public class IndexApiResponse
 {
     public string Status { get; set; }
-    public ResponseData Response { get; set; }
+    public IndexResponseData Response { get; set; }
 }
 
-public class ResponseData
+public abstract class BaseResponseData
+{
+    
+}
+
+public class IndexResponseData : BaseResponseData
 {
     public string Username { get; set; }
     public int Id { get; set; }
