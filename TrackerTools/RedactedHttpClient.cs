@@ -1,19 +1,22 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace TrackerTools;
 
-public class RedactedHttpClient : Singleton<RedactedHttpClient>
+public sealed class RedactedHttpClient : BaseHttpClient
 {
-    private HttpClient? _client;
     private TrackerData _trackerData;
 
     private const string BaseAddress = "https://redacted.ch/";
+    
+    private static readonly List<HttpClientAction> PermittedActions = new()
+    {
+        HttpClientAction.Index
+    };
 
-    public void Initialize()
+    public override void Initialize()
     {
         _client = new HttpClient();
         _trackerData = Config.Instance.GetConfigData(Tracker.Redacted);
@@ -23,11 +26,10 @@ public class RedactedHttpClient : Singleton<RedactedHttpClient>
         _client.DefaultRequestHeaders.Accept.Clear();
         _client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
     }
-    
-    public async Task<IndexResponseData?> AsyncGetIndex()
+
+    public override bool CanPerformAction(HttpClientAction httpClientAction)
     {
-        var indexAction = HttpClientActionFactory.GetAction(HttpClientAction.Index);
-        return (IndexResponseData) await indexAction.PerformAction(_client);
+        return PermittedActions.Contains(httpClientAction);
     }
 }
 

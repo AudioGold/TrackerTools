@@ -11,35 +11,26 @@ public partial class MainWindow : Window
         InitializeComponent();
         
         Config.Instance.Load();
-        RedactedHttpClient.Instance.Initialize();
-        OrpheusHttpClient.Instance.Initialize();
     }
     
     public async void button_Click(object? sender, RoutedEventArgs e)
     {
-        //   var button = (Button)sender;
-      //  button.Content = "Hello!!";
+        var redactedClient = HttpClientFactory.GetClient(Tracker.Redacted);
+        var orpheusClient = HttpClientFactory.GetClient(Tracker.Orpheus);
 
-      var responseData = await RedactedHttpClient.Instance.AsyncGetIndex();
-      if (responseData != null)
-      {
-          var codeDisplay = this.FindControl<TextBlock>("CodeDisplay");
-          codeDisplay.Text = $"Redacted: ID = {responseData.Id} Username = {responseData.Username}";
-      }
-      else
-      {
-          Console.WriteLine("Internal server Error");
-      }
-      
-      var orpheusResponseData = await OrpheusHttpClient.Instance.AsyncGetIndex();
-      if (orpheusResponseData != null)
-      {
-          var codeDisplay = this.FindControl<TextBlock>("CodeDisplay");
-          codeDisplay.Text += $"\nOrpheus: ID = {orpheusResponseData.Id} Username = {orpheusResponseData.Username}";
-      }
-      else
-      {
-          Console.WriteLine("Internal server Error");
-      }
+        try
+        {
+            var redactedResponse = (IndexResponseData)await redactedClient.AsyncGetActionResponse(HttpClientAction.Index);
+            var orpheusResponse = (IndexResponseData)await orpheusClient.AsyncGetActionResponse(HttpClientAction.Index);
+            
+            var codeDisplay = this.FindControl<TextBlock>("CodeDisplay");
+            codeDisplay.Text = $"Redacted: ID = {redactedResponse.Id} Username = {redactedResponse.Username}";
+            codeDisplay.Text += $"\nOrpheus: ID = {orpheusResponse.Id} Username = {orpheusResponse.Username}";
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine(exception);
+            throw;
+        }
     }
 }
