@@ -1,6 +1,6 @@
 using TrackerTools.RestApi.Clients;
 
-namespace TrackerTools.RestApi.ApiResponses.Common;
+namespace TrackerTools.RestApi.ApiResponses.Common.Index;
 
 public class IndexApiResponse : BaseApiResponse
 {

@@ -15,7 +15,8 @@ public sealed class RedactedHttpClient : BaseHttpClient
     private static readonly List<HttpClientAction> PermittedActions = new()
     {
         HttpClientAction.Index,
-        HttpClientAction.User
+        HttpClientAction.User,
+        HttpClientAction.Inbox
     };
 
     public override void Initialize()

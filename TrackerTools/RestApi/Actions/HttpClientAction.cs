@@ -5,8 +5,9 @@ namespace TrackerTools.RestApi.Actions;
 public enum HttpClientAction
 {
     [Description("index")]
-    Index = 0,
-    
+    Index,
     [Description("user")]
-    User = 1,
+    User,
+    [Description("inbox")]
+    Inbox,
 }

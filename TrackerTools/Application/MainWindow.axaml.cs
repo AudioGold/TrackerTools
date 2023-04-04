@@ -3,6 +3,8 @@ using Avalonia.Controls;
 using Avalonia.Interactivity;
 using TrackerTools.RestApi.Actions;
 using TrackerTools.RestApi.ApiResponses.Common;
+using TrackerTools.RestApi.ApiResponses.Common.Inbox;
+using TrackerTools.RestApi.ApiResponses.Common.Index;
 using TrackerTools.RestApi.ApiResponses.Orpheus;
 using TrackerTools.RestApi.ApiResponses.Redacted;
 using TrackerTools.RestApi.Clients;
@@ -39,6 +41,24 @@ public partial class MainWindow : Window
         
             var orpheusUserResponse = await orpheusClient.AsyncGetActionResponse<OrpheusUserApiResponse>(new UserHttpClientActionData(orpheusIndexResponse.Response.Id));
             if (orpheusUserResponse == null)
+                return;
+            
+            var redactedInboxResponse = await redactedClient.AsyncGetActionResponse<InboxApiResponse>(
+                new InboxHttpClientActionData(1,
+                    InboxHttpClientActionData.Type.Inbox,
+                    "unread",
+                    "",
+                    InboxHttpClientActionData.SearchType.Subject));
+            if (redactedInboxResponse == null)
+                return;
+            
+            var orpheusInboxResponse = await orpheusClient.AsyncGetActionResponse<InboxApiResponse>(
+                new InboxHttpClientActionData(1,
+                    InboxHttpClientActionData.Type.Inbox,
+                    "unread",
+                    "",
+                    InboxHttpClientActionData.SearchType.Subject));
+            if (orpheusInboxResponse == null)
                 return;
             
             var codeDisplay = this.FindControl<TextBlock>("CodeDisplay");

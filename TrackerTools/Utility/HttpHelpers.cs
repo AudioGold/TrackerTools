@@ -25,7 +25,17 @@ public class ActionArgument
 public enum ActionArgumentType
 {
     [Description("id")]
-    Id = 0
+    Id,
+    [Description("page")]
+    Page,
+    [Description("type")]
+    Type,
+    [Description("sort")]
+    Sort,
+    [Description("search")]
+    Search,
+    [Description("searchtype")]
+    SearchType,
 }
 
 public static class HttpHelpers
