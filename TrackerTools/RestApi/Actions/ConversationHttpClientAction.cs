@@ -3,13 +3,13 @@ using TrackerTools.Utility;
 
 namespace TrackerTools.RestApi.Actions;
 
-public class UserHttpClientActionData : BaseHttpClientActionData
+public class ConversationHttpClientActionData : BaseHttpClientActionData
 {
     private readonly int _id;
 
-    public UserHttpClientActionData(int id)
+    public ConversationHttpClientActionData(int id)
     {
-        Action = HttpClientAction.User;
+        Action = HttpClientAction.Conversation;
         _id = id;
     }
 
@@ -17,6 +17,7 @@ public class UserHttpClientActionData : BaseHttpClientActionData
     {
         return new List<ActionArgument>
         {
+            new (ActionArgumentType.Type, "viewconv"),
             new (ActionArgumentType.Id, _id.ToString())
         };
     }

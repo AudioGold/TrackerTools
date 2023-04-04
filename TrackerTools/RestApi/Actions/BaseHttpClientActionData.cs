@@ -5,7 +5,7 @@ namespace TrackerTools.RestApi.Actions;
 
 public abstract class BaseHttpClientActionData
 {
-    public HttpClientAction Action;
+    public HttpClientAction Action { get; protected init; }
 
     public virtual List<ActionArgument>? GetArguments()
     {

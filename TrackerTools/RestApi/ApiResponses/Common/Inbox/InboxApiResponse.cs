@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using TrackerTools.RestApi.Clients;
 
 namespace TrackerTools.RestApi.ApiResponses.Common.Inbox;
 
@@ -8,7 +7,7 @@ public class InboxApiResponse : BaseApiResponse
     public ResponseData Response { get; set; }
 }
 
-public class ResponseData : BaseResponseData
+public class ResponseData
 {
     public int CurrentPage { get; set; }
     public int Pages { get; set; }

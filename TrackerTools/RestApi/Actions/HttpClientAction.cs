@@ -10,4 +10,6 @@ public enum HttpClientAction
     User,
     [Description("inbox")]
     Inbox,
+    [Description("conversation")]
+    Conversation,
 }

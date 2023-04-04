@@ -1,5 +1,3 @@
-using TrackerTools.RestApi.Clients;
-
 namespace TrackerTools.RestApi.ApiResponses.Common.Index;
 
 public class IndexApiResponse : BaseApiResponse
@@ -7,7 +5,7 @@ public class IndexApiResponse : BaseApiResponse
     public ResponseData Response { get; set; }
 }
 
-public class ResponseData : BaseResponseData
+public class ResponseData
 {
     public string Username { get; set; }
     public int Id { get; set; }

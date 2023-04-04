@@ -7,7 +7,7 @@ public class RedactedUserApiResponse : BaseApiResponse
     public UserResponseData Response { get; set; }
 }
 
-public class UserResponseData : BaseResponseData
+public class UserResponseData
 {
     public string Username { get; set; }
     public string Avatar { get; set; }

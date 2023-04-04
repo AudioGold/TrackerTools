@@ -23,8 +23,3 @@ public abstract class BaseHttpClient
         return await HttpHelpers.PerformAction<T>(Client, requestUri);
     }
 }
-
-public abstract class BaseResponseData
-{
-    
-}
