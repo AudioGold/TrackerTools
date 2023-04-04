@@ -1,6 +1,6 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="TrackerTools.App">
+             x:Class="TrackerTools.Application.App">
 
     <Application.Styles>
         <FluentTheme Mode="Light"/>

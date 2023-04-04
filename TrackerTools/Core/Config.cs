@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json.Serialization;
 using Newtonsoft.Json;
+using TrackerTools.Utility;
 
 namespace TrackerTools;
 
@@ -19,7 +20,7 @@ public enum Tracker
 public class Config : Singleton<Config>
 {
     private ConfigData? _configData;
-    private Dictionary<Tracker, TrackerData>? _trackerData;
+    private Dictionary<Tracker, TrackerData?>? _trackerData;
 
     private readonly Dictionary<string, Tracker> _trackerNameToTracker = new()
     {
@@ -27,7 +28,7 @@ public class Config : Singleton<Config>
         { "Orpheus", Tracker.Orpheus },
     };
 
-    public TrackerData GetConfigData(Tracker tracker)
+    public TrackerData? GetConfigData(Tracker tracker)
     {
         return _trackerData[tracker];
     }
@@ -51,7 +52,7 @@ public class Config : Singleton<Config>
 
 public class ConfigData
 {
-    public List<TrackerData> Trackers { get; set; }
+    public List<TrackerData?> Trackers { get; set; }
 }
 
 public class TrackerData

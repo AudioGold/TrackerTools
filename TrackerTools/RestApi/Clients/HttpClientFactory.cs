@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TrackerTools;
+namespace TrackerTools.RestApi.Clients;
 
 public static class HttpClientFactory
 {
